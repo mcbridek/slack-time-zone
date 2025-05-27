@@ -22,6 +22,26 @@ features:
       description: Quick time check for all zones
       usage_hint: "[no parameters needed]"
       should_escape: false
+    - command: /timezone-convert
+      description: Convert time between timezones
+      usage_hint: "14:30 EST PST"
+      should_escape: false
+    - command: /timezone-meeting
+      description: Find best meeting times across team zones
+      usage_hint: "[no parameters needed]"
+      should_escape: false
+    - command: /timezone-list
+      description: List available timezones
+      usage_hint: "[search term optional]"
+      should_escape: false
+    - command: /timezone-preferences
+      description: Set your timezone display preferences
+      usage_hint: "timeFormat 12h"
+      should_escape: false
+    - command: /timezone-reminder
+      description: Set timezone change reminders
+      usage_hint: "enable"
+      should_escape: false
 oauth_config:
   scopes:
     bot:

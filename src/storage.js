@@ -52,8 +52,43 @@ class TimezoneStorage {
 
   async set(userId, timezoneData) {
     await this.load();
-    this.data.set(userId, timezoneData);
+    
+    // Ensure we maintain existing data and preferences
+    const existingData = this.data.get(userId) || {};
+    const mergedData = {
+      ...existingData,
+      ...timezoneData,
+      updatedAt: new Date().toISOString()
+    };
+    
+    this.data.set(userId, mergedData);
     await this.save();
+  }
+
+  async setPreferences(userId, preferences) {
+    await this.load();
+    const existingData = this.data.get(userId) || {};
+    const updatedData = {
+      ...existingData,
+      preferences: {
+        ...existingData.preferences,
+        ...preferences
+      },
+      updatedAt: new Date().toISOString()
+    };
+    
+    this.data.set(userId, updatedData);
+    await this.save();
+  }
+
+  async getPreferences(userId) {
+    await this.load();
+    const userData = this.data.get(userId);
+    return userData?.preferences || {
+      timeFormat: '24h',
+      dateFormat: 'YYYY-MM-DD',
+      showSeconds: false
+    };
   }
 
   async get(userId) {
