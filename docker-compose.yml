@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  slack-timezone-bot:
+    build: .
+    container_name: slack-timezone-bot
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env
+    volumes:
+      # Mount data directory for persistent storage
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "process.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
