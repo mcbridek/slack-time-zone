@@ -4,18 +4,45 @@ A Slack bot that helps teams coordinate across different time zones by tracking 
 
 ## Features
 
-- **Set Your Timezone**: Use `/timezone-set <timezone>` to register your timezone
+- **Set Your Timezone**: Use `/timezone-set <timezone>` to register your timezone with support for aliases like EST, PST
 - **View Team Timezones**: Use `/timezone` to see all team member timezones and current times
 - **Quick Time Check**: Use `/time` for a fast overview of current times across all registered zones
-- **Persistent Storage**: User timezone preferences are saved and persist across bot restarts
+- **Time Conversion**: Convert times between any timezones with `/timezone-convert`
+- **Meeting Planner**: Find optimal meeting times across all team timezones
+- **Timezone Search**: Search and browse available timezones
+- **User Preferences**: Customize time/date formats and display options
+- **Smart Reminders**: Get notified about daylight saving time changes
+- **Persistent Storage**: All user preferences and data persist across bot restarts
 
 ## Commands
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `/timezone-set <timezone>` | Set your timezone | `/timezone-set America/New_York` |
+| `/timezone-set <timezone>` | Set your timezone (supports aliases) | `/timezone-set America/New_York` or `/timezone-set EST` |
 | `/timezone` | Show all team timezones | `/timezone` |
 | `/time` | Quick time check for all zones | `/time` |
+| `/timezone-convert <time> <from> <to>` | Convert time between timezones | `/timezone-convert 14:30 EST PST` |
+| `/timezone-meeting` | Find best meeting times for team | `/timezone-meeting` |
+| `/timezone-list [search]` | List/search available timezones | `/timezone-list` or `/timezone-list america` |
+| `/timezone-preferences [setting] [value]` | Set display preferences | `/timezone-preferences timeFormat 12h` |
+| `/timezone-reminder <action>` | Manage DST reminders | `/timezone-reminder enable` |
+
+### Supported Timezone Aliases
+- **EST/EDT** → America/New_York
+- **CST/CDT** → America/Chicago  
+- **MST/MDT** → America/Denver
+- **PST/PDT** → America/Los_Angeles
+- **GMT** → Europe/London
+- **UTC** → UTC
+- **JST** → Asia/Tokyo
+- **IST** → Asia/Kolkata
+- **CET/CEST** → Europe/Paris
+
+### User Preferences
+- **Time Format**: 12h or 24h display
+- **Date Format**: YYYY-MM-DD, MM/DD/YYYY, or DD/MM/YYYY  
+- **Show Seconds**: Include seconds in time display
+- **DST Reminders**: Notifications for daylight saving changes
 
 ## Setup
 
@@ -79,12 +106,13 @@ docker-compose up -d
 
 ```
 ├── src/
-│   ├── app.js          # Main application and command handlers
-│   └── storage.js      # Persistent storage for user timezones
-├── SETUP.md           # Detailed setup instructions
-├── Dockerfile         # Docker container configuration
-├── docker-compose.yml # Docker Compose setup
-└── slack-app-manifest.yaml # Slack app configuration
+│   ├── app.js              # Main application and command handlers
+│   ├── storage.js          # Persistent storage for user data and preferences
+│   └── timezone-utils.js   # Timezone conversion utilities and aliases
+├── SETUP.md               # Detailed setup instructions
+├── Dockerfile             # Docker container configuration
+├── docker-compose.yml     # Docker Compose setup
+└── slack-app-manifest.yaml # Slack app configuration with all commands
 ```
 
 ## Contributing
